@@ -1,3 +1,4 @@
 {
-  "name": "UnityScreenCalibration"
+  "name": "UnityScreenCalibration",
+  "export": "Assets/Main/Export"
 }
