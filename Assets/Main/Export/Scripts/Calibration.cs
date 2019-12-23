@@ -61,24 +61,33 @@ public class Calibration : MonoBehaviour
     {
         string prefix = Application.persistentDataPath;
         string fullPath = prefix + path;
-        string text = "init";
 
-        StreamReader reader = new StreamReader(path);
-        List<float> homographyFromFile = new List<float>();
-        while(text != null)
+        if (File.Exists(fullPath))
         {
-            try {
-                float val = float.Parse(reader.ReadLine(), CultureInfo.InvariantCulture);
-                homographyFromFile.Add(val);
-                Debug.Log("val : " + val);
-            }
-            catch(FormatException exc)
-            {
-                Debug.Log("FormatException : " + exc);
-            }
-        }
-        reader.Close();
 
+            string text = "init";
+
+            StreamReader reader = new StreamReader(path);
+            List<float> homographyFromFile = new List<float>();
+            while (text != null)
+            {
+                try
+                {
+                    text = reader.ReadLine();
+                    if (text != null)
+                    {
+                        float val = float.Parse(text, CultureInfo.InvariantCulture);
+                        homographyFromFile.Add(val);
+                        Debug.Log("val : " + val);
+                    }
+                }
+                catch (FormatException exc)
+                {
+                    Debug.Log("FormatException : " + exc);
+                }
+            }
+            reader.Close();
+        }
     }
 
     public void SaveHomography(List<float> homography)
