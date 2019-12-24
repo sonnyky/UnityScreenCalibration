@@ -59,8 +59,8 @@ public class Calibration : MonoBehaviour
         }
         else if(m_AnalogInputPoints.Count < 4)
         {
-            calibratingPointId++;
             CalibrateNextPoint();
+            calibratingPointId++;
         }
         else
         {
