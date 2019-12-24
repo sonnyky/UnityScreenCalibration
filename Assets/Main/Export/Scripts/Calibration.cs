@@ -30,6 +30,7 @@ public class Calibration : MonoBehaviour
     private void Start()
     {
         m_HomographyCalculator = new CalcHomography();
+        m_HomographyCalculator.InitiateDevice();
         m_HomographyFullPath = Application.persistentDataPath + m_HomographyFile;
 
         m_AnalogInputPoints = new List<Vector3>();
