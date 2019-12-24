@@ -42,6 +42,11 @@ public class Calibration : MonoBehaviour
         }
     }
 
+    public void RedoCalibration()
+    {
+        m_AnalogInputPoints.Clear();
+    }
+
     public void SetSensorInputPoint(Vector2 inputPoint)
     {
         Vector3 paddedVector = (Vector3)inputPoint;
