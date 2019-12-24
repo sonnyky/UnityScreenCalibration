@@ -25,6 +25,8 @@ public class Calibration : MonoBehaviour
 
     int calibratingPointId = 0;
 
+    public System.Action OnEnoughPointsCollected;
+
     private void Start()
     {
         m_HomographyCalculator = new CalcHomography();
@@ -46,6 +48,7 @@ public class Calibration : MonoBehaviour
         m_AnalogInputPoints.Add(paddedVector);
         if(m_AnalogInputPoints.Count == 4)
         {
+            OnEnoughPointsCollected.Invoke();
             CalculateHomography();
         }
         else
