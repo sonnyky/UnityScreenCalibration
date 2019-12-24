@@ -54,11 +54,17 @@ public class Calibration : MonoBehaviour
         m_AnalogInputPoints.Add(paddedVector);
         if(m_AnalogInputPoints.Count == 4)
         {
+            m_CalibrationPointsWithCrosshairs[calibratingPointId].SetActive(false);
             CalculateHomography();
+        }
+        else if(m_AnalogInputPoints.Count < 4)
+        {
+            calibratingPointId++;
+            CalibrateNextPoint();
         }
         else
         {
-            calibratingPointId++;
+            Debug.Log("More than 4 points detected !!!");
         }
     }
 
