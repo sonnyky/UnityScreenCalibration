@@ -116,7 +116,7 @@ public class Calibration : MonoBehaviour
     public void SaveHomography(List<float> homography)
     {
         StreamWriter writer = new StreamWriter(m_HomographyFullPath, true);
-        for (int i = 0; i < homography.Count - 1; i++)
+        for (int i = 0; i < homography.Count; i++)
         {
             writer.WriteLine(homography[i]);
         }
