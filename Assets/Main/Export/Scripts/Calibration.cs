@@ -29,6 +29,15 @@ public class Calibration : MonoBehaviour
     {
         m_HomographyCalculator = new CalcHomography();
         m_HomographyFullPath = Application.persistentDataPath + m_HomographyFile;
+
+        m_AnalogInputPoints = new List<Vector3>();
+        m_UnityScreenPositions = new List<Vector3>();
+
+        for(int i=0; i<m_CalibrationPointsWithCrosshairs.Length; i++)
+        {
+            m_UnityScreenPositions.Add(m_CalibrationPointsWithCrosshairs[i].transform.position);
+            if (i > 0) m_CalibrationPointsWithCrosshairs[i].SetActive(false);
+        }
     }
 
     public void SetSensorInputPoint(Vector2 inputPoint)
