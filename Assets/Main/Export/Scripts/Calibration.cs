@@ -76,7 +76,7 @@ public class Calibration : MonoBehaviour
 
     public void CalculateHomography()
     {
-        List<float>homography = m_HomographyCalculator.CalculateHomography(m_AnalogInputPoints.ToArray(), m_UnityScreenPositions.ToArray());
+        float[] homography = m_HomographyCalculator.CalculateHomography(m_AnalogInputPoints.ToArray(), m_UnityScreenPositions.ToArray());
         SaveHomography(homography);
     }
 
@@ -113,10 +113,10 @@ public class Calibration : MonoBehaviour
         }
     }
 
-    public void SaveHomography(List<float> homography)
+    public void SaveHomography(float[] homography)
     {
         StreamWriter writer = new StreamWriter(m_HomographyFullPath, true);
-        for (int i = 0; i < homography.Count; i++)
+        for (int i = 0; i < homography.Length; i++)
         {
             writer.WriteLine(homography[i]);
         }
