@@ -46,6 +46,7 @@ public class Calibration : MonoBehaviour
     public void RedoCalibration()
     {
         m_AnalogInputPoints.Clear();
+        m_CalibrationPointsWithCrosshairs[0].SetActive(true);
     }
 
     public void SetSensorInputPoint(Vector2 inputPoint)
