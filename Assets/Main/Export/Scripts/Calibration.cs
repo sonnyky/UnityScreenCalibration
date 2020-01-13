@@ -5,6 +5,7 @@ using System.Globalization;
 using System.IO;
 using UnityEditor;
 using UnityEngine;
+using System.Linq;
 
 public class Calibration : MonoBehaviour
 {
@@ -12,6 +13,10 @@ public class Calibration : MonoBehaviour
     List<Vector3> m_UnityScreenPositions;
 
     List<Vector3> m_AnalogInputPoints;
+
+    List<Vector2> m_TemporaryPointsCollection;
+
+    int m_MaxNumOfPointsInCollection = 10;
 
     [SerializeField]
     GameObject[] m_CalibrationPointsWithCrosshairs;
@@ -32,6 +37,7 @@ public class Calibration : MonoBehaviour
     {
         m_AnalogInputPoints = new List<Vector3>();
         m_UnityScreenPositions = new List<Vector3>();
+        m_TemporaryPointsCollection = new List<Vector2>();
     }
 
     private void Start()
@@ -56,10 +62,24 @@ public class Calibration : MonoBehaviour
         m_CalibrationPointsWithCrosshairs[0].SetActive(true);
     }
 
-    public void SetSensorInputPoint(Vector2 inputPoint)
+    public void SetSensorInputPoint()
     {
-        Vector3 paddedVector = (Vector3)inputPoint;
+        //Remove the lower half of the collected points
+        int index = m_TemporaryPointsCollection.Count / 2;
+        m_TemporaryPointsCollection.RemoveRange(index, m_TemporaryPointsCollection.Count - index);
+
+        // Average the remaining points
+        var avg = new Vector2(
+        m_TemporaryPointsCollection.Average(x => x.x),
+        m_TemporaryPointsCollection.Average(x => x.y));
+
+        Vector3 paddedVector = avg;
+
         m_AnalogInputPoints.Add(paddedVector);
+
+        // Clear the point collection for the next calibration point
+        m_TemporaryPointsCollection.Clear();
+
         if (m_AnalogInputPoints.Count == 4)
         {
             m_CalibrationPointsWithCrosshairs[calibratingPointId].SetActive(false);
@@ -134,5 +154,19 @@ public class Calibration : MonoBehaviour
         }
         writer.Close();
         OnCalibrationFinished.Invoke();
+    }
+
+    public void SetMaxNumOfPointsInCollection(int num)
+    {
+        m_MaxNumOfPointsInCollection = num;
+    }
+
+    public void AccumulatePoints(Vector2 point)
+    {
+        m_TemporaryPointsCollection.Add(point);
+        if(m_TemporaryPointsCollection.Count > m_MaxNumOfPointsInCollection)
+        {
+            m_TemporaryPointsCollection.RemoveAt(0);
+        }
     }
 }
